@@ -10,7 +10,7 @@ public class ConsumerService {
     private final static String TOPIC_NAME = "CAR_SHOP_TOPIC";
 
 
-    @KafkaListener(topics = TOPIC_NAME, groupId = "1")
+    @KafkaListener(topics = TOPIC_NAME, groupId = "GROUP_1")
     public void listenGroupFoo(String message) {
         System.out.println("Received Message in group foo: " + message);
     }

@@ -21,7 +21,7 @@ services:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1:9092,PLAINTEXT_HOST://localhost:9092
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:29094,PLAINTEXT_HOST://0.0.0.0:9092
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:24094,PLAINTEXT_HOST://0.0.0.0:9092
       - ALLOW_PLAINTEXT_LISTENER=yes
     volumes:
       - "E:\\kafka-store-1:/bitnami/kafka"
@@ -40,7 +40,7 @@ services:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka2:9093,PLAINTEXT_HOST://localhost:9093
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:29094,PLAINTEXT_HOST://0.0.0.0:9093
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:24094,PLAINTEXT_HOST://0.0.0.0:9093
       - ALLOW_PLAINTEXT_LISTENER=yes
     volumes:
       - "E:\\kafka-store-2:/bitnami/kafka"
@@ -59,7 +59,7 @@ services:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka3:9094,PLAINTEXT_HOST://localhost:9094
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:29094,PLAINTEXT_HOST://0.0.0.0:9094
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:24094,PLAINTEXT_HOST://0.0.0.0:9094
       - ALLOW_PLAINTEXT_LISTENER=yes
     volumes:
       - "E:\\kafka-store-3:/bitnami/kafka"
@@ -67,6 +67,20 @@ services:
       - zookeeper
     networks:
       - app-tier
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    networks:
+      - app-tier
+    restart: "no"
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka2:24092"
+    depends_on:
+      - "kafka1"
+      - "kafka2"
+      - "kafka3"
 
   #  zookeeper:
   #    image: 'bitnami/zookeeper:latest'
